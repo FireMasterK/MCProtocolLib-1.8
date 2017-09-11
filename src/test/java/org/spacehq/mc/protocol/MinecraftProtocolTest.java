@@ -5,16 +5,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.spacehq.mc.auth.data.GameProfile;
-import org.spacehq.mc.protocol.data.game.Position;
-import org.spacehq.mc.protocol.data.game.values.world.block.BlockChangeRecord;
-import org.spacehq.mc.protocol.data.message.TextMessage;
-import org.spacehq.mc.protocol.data.status.PlayerInfo;
-import org.spacehq.mc.protocol.data.status.ServerStatusInfo;
-import org.spacehq.mc.protocol.data.status.VersionInfo;
-import org.spacehq.mc.protocol.data.status.handler.ServerInfoBuilder;
-import org.spacehq.mc.protocol.data.status.handler.ServerInfoHandler;
-import org.spacehq.mc.protocol.packet.ingame.server.ServerJoinGamePacket;
-import org.spacehq.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket;
 import org.spacehq.packetlib.Client;
 import org.spacehq.packetlib.Server;
 import org.spacehq.packetlib.Session;
@@ -24,17 +14,30 @@ import org.spacehq.packetlib.event.session.SessionAdapter;
 import org.spacehq.packetlib.packet.Packet;
 import org.spacehq.packetlib.tcp.TcpSessionFactory;
 
+import com.github.steveice10.mc.protocol.MinecraftProtocol;
+import com.github.steveice10.mc.protocol.ServerLoginHandler;
+import com.github.steveice10.mc.protocol.data.game.Position;
+import com.github.steveice10.mc.protocol.data.game.values.world.block.BlockChangeRecord;
+import com.github.steveice10.mc.protocol.data.message.TextMessage;
+import com.github.steveice10.mc.protocol.data.status.PlayerInfo;
+import com.github.steveice10.mc.protocol.data.status.ServerStatusInfo;
+import com.github.steveice10.mc.protocol.data.status.VersionInfo;
+import com.github.steveice10.mc.protocol.data.status.handler.ServerInfoBuilder;
+import com.github.steveice10.mc.protocol.data.status.handler.ServerInfoHandler;
+import com.github.steveice10.mc.protocol.packet.ingame.server.ServerJoinGamePacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket;
+
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
+import static com.github.steveice10.mc.protocol.MinecraftConstants.*;
+import static com.github.steveice10.mc.protocol.data.SubProtocol.STATUS;
+import static com.github.steveice10.mc.protocol.data.game.values.entity.player.GameMode.SURVIVAL;
+import static com.github.steveice10.mc.protocol.data.game.values.setting.Difficulty.PEACEFUL;
+import static com.github.steveice10.mc.protocol.data.game.values.world.WorldType.DEFAULT;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.*;
 import static org.spacehq.mc.protocol.ByteBufHelper.*;
-import static org.spacehq.mc.protocol.MinecraftConstants.*;
-import static org.spacehq.mc.protocol.data.SubProtocol.STATUS;
-import static org.spacehq.mc.protocol.data.game.values.entity.player.GameMode.SURVIVAL;
-import static org.spacehq.mc.protocol.data.game.values.setting.Difficulty.PEACEFUL;
-import static org.spacehq.mc.protocol.data.game.values.world.WorldType.DEFAULT;
 
 public class MinecraftProtocolTest {
     private static final String HOST = "localhost";
